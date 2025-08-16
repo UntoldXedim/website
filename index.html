@@ -10,60 +10,94 @@
       --green-dark:#1f7a36;
       --bg:#f8f9fa;
       --text:#333;
+      --border:#e9ecef;
+      --card:#fff;
+      --muted:#666;
+      --shadow:0 2px 6px rgba(0,0,0,.08);
+      --radius:10px;
+      --btn-h:40px;
     }
+
     *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
     body{background:var(--bg);color:var(--text);line-height:1.5}
     a{color:inherit;text-decoration:none}
-    /* Header */
-    header{background:#fff;border-bottom:1px solid #e9ecef;position:sticky;top:0;z-index:10}
-    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem}
-    .brand{font-weight:700;font-size:1.1rem}
-    .cart-btn{position:relative;background:var(--green);color:#fff;border:none;border-radius:6px;padding:.55rem .9rem;cursor:pointer}
+
+    /* Header / Nav */
+    header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem;gap:1rem}
+    .brand{font-weight:700;font-size:1.1rem;white-space:nowrap}
+    .nav-left,.nav-right{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
+    .nav-link{padding:.4rem .6rem;border-radius:6px;color:#222}
+    .nav-link:hover{background:#f3f4f5}
+    .nav-cta{display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border-radius:6px;border:1px solid var(--green);color:var(--green);background:#fff;cursor:pointer}
+    .nav-cta:hover{background:#f6fff8}
+    .cart-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border-radius:6px;border:none;background:var(--green);color:#fff;cursor:pointer}
+    .cart-btn:hover{background:var(--green-dark)}
     .cart-count{position:absolute;top:-8px;right:-8px;background:#000;color:#fff;border-radius:999px;font-size:.7rem;padding:.1rem .4rem}
+
     /* Hero */
     .hero{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
-    .hero-box{background:#e9f7ee;border:1px solid #dff1e6;border-radius:10px;padding:1.25rem;text-align:center}
+    .hero-box{background:#e9f7ee;border:1px solid #dff1e6;border-radius:var(--radius);padding:1.25rem;text-align:center;box-shadow:var(--shadow)}
     .hero h1{font-size:1.5rem;margin-bottom:.35rem}
     .hero p{color:#4b4b4b}
-    /* Grid */
+
+    /* Grid / Cards */
     .container{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
     .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .card{background:#fff;border:1px solid #eee;border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
-    .card-img{aspect-ratio:1/1;width:100%;object-fit:cover;background:#f2f2f2}
-    .card-body{padding:0.9rem;display:flex;flex-direction:column;gap:.35rem}
+    .card{background:var(--card);border:1px solid #eee;border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
+    .card-img-wrap{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#f2f2f2}
+    .card-img{width:100%;height:100%;object-fit:cover}
+    .card-body{padding:.9rem;display:flex;flex-direction:column;gap:.5rem}
     .dose{font-weight:700}
     .price{color:var(--green);font-weight:700}
-    .btn{display:inline-block;background:var(--green);color:#fff;border:none;border-radius:6px;padding:.55rem .9rem;cursor:pointer;text-align:center}
+    .btn{display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border-radius:6px;border:none;background:var(--green);color:#fff;cursor:pointer}
     .btn:hover{background:var(--green-dark)}
-    .btn-outline{background:#fff;color:var(--green);border:1px solid var(--green)}
-    .btn-row{display:flex;gap:.5rem;margin-top:.35rem}
-    /* Cart drawer */
-    .drawer{position:fixed;right:0;top:0;height:100dvh;width:360px;max-width:95vw;background:#fff;border-left:1px solid #ddd;box-shadow:-6px 0 24px rgba(0,0,0,.08);transform:translateX(100%);transition:transform .25s ease;z-index:999}
+    .btn-outline{display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border-radius:6px;border:1px solid var(--green);background:#fff;color:var(--green);cursor:pointer}
+    .btn-outline:hover{background:#f6fff8}
+    .btn-row{display:flex;gap:.5rem;margin-top:.25rem}
+    .full{width:100%}
+
+    /* Cart Drawer */
+    .drawer{position:fixed;right:0;top:0;height:100dvh;width:380px;max-width:95vw;background:#fff;border-left:1px solid #ddd;box-shadow:-6px 0 24px rgba(0,0,0,.08);transform:translateX(100%);transition:transform .25s ease;z-index:999;display:flex;flex-direction:column}
     .drawer.open{transform:translateX(0)}
     .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:1rem;border-bottom:1px solid #eee}
     .drawer-title{font-weight:700}
-    .drawer-body{height:calc(100dvh - 142px);overflow:auto;padding:1rem}
+    .drawer-body{flex:1;overflow:auto;padding:1rem}
     .drawer-foot{border-top:1px solid #eee;padding:1rem}
     .line{display:flex;gap:.75rem;align-items:center;border-bottom:1px solid #f3f3f3;padding:.6rem 0}
     .line img{width:56px;height:56px;object-fit:cover;border-radius:6px;border:1px solid #eee;background:#fafafa}
     .line-main{flex:1}
-    .qty{display:flex;align-items:center;gap:.4rem}
-    .qty button{width:28px;height:28px;border:1px solid #ddd;background:#fff;border-radius:4px;cursor:pointer}
-    .muted{color:#666;font-size:.9rem}
+    .qty{display:flex;align-items:center;gap:.4rem;margin-top:.35rem}
+    .qty button{width:32px;height:32px;border:1px solid #ddd;background:#fff;border-radius:4px;cursor:pointer;font-size:1rem;line-height:1}
+    .muted{color:var(--muted);font-size:.92rem}
     .totals{display:flex;align-items:center;justify-content:space-between;margin:.6rem 0 1rem}
+    .checkout-btn{width:100%;}
+
     /* Footer */
-    footer{text-align:center;color:#666;border-top:1px solid #e9ecef;margin-top:1.5rem;padding:1rem}
-    /* Utility */
-    .spacer{height:.5rem}
+    footer{text-align:center;color:#666;border-top:1px solid var(--border);margin-top:1.5rem;padding:1rem}
+
+    /* Responsive tweaks */
+    @media (max-width:420px){
+      .nav-left,.nav-right{gap:.5rem}
+      .nav-link{padding:.3rem .45rem}
+    }
   </style>
 </head>
 <body>
   <header>
     <div class="nav">
-      <div class="brand">Supplement Store</div>
-      <button id="openCart" class="cart-btn">
-        Cart <span id="cartCount" class="cart-count">0</span>
-      </button>
+      <div class="nav-left">
+        <div class="brand">Supplement Store</div>
+        <a class="nav-link" href="/" aria-label="Home">Home</a>
+        <a class="nav-link" href="/terms.html" aria-label="Terms of Service">Terms of Service</a>
+      </div>
+      <div class="nav-right">
+        <a class="nav-cta" href="/signup.html" aria-label="Sign Up">Sign Up</a>
+        <a class="nav-cta" href="/login.html" aria-label="Log In">Log In</a>
+        <button id="openCart" class="cart-btn" aria-label="Open cart">
+          Cart <span id="cartCount" class="cart-count">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -75,10 +109,7 @@
   </section>
 
   <main class="container">
-    <div class="grid" id="productGrid">
-      <!-- Example product card — duplicate programmatically -->
-      <!-- Replace image src with your product photos -->
-    </div>
+    <div class="grid" id="productGrid"><!-- rendered by JS --></div>
   </main>
 
   <footer>© 2025 Supplement Store. All rights reserved.</footer>
@@ -87,31 +118,29 @@
   <aside id="cartDrawer" class="drawer" aria-hidden="true">
     <div class="drawer-head">
       <div class="drawer-title">Your Cart</div>
-      <button id="closeCart" class="btn btn-outline">Close</button>
+      <button id="closeCart" class="btn-outline" aria-label="Close cart">Close</button>
     </div>
-    <div id="cartBody" class="drawer-body">
-      <!-- Cart lines rendered here -->
-    </div>
+    <div id="cartBody" class="drawer-body"><!-- lines rendered here --></div>
     <div class="drawer-foot">
       <div class="totals">
         <strong>Total</strong>
         <strong>$<span id="cartTotal">0.00</span></strong>
       </div>
-      <a href="#" id="checkoutLink" class="btn" style="width:100%;text-align:center">Checkout</a>
-      <div class="spacer"></div>
-      <small class="muted">Add your checkout link or integration here.</small>
+      <a href="#" id="checkoutLink" class="btn checkout-btn">Checkout</a>
+      <div style="height:.5rem"></div>
+      <small class="muted">Replace the Checkout link with your payment or checkout URL.</small>
     </div>
   </aside>
 
   <script>
-    // Replace these with your actual images
+    // Replace these with your actual image URLs
     const products = [
-      { id:'p5',  dose:'5 mg',  price:24.99,  img:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=400&auto=format' },
-      { id:'p10', dose:'10 mg', price:39.99,  img:'https://images.unsplash.com/photo-1573883431205-98b0d4638c4c?q=80&w=400&auto=format' },
-      { id:'p15', dose:'15 mg', price:54.99,  img:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=400&auto=format' },
-      { id:'p20', dose:'20 mg', price:69.99,  img:'https://images.unsplash.com/photo-1585386959984-a415522316dc?q=80&w=400&auto=format' },
-      { id:'p30', dose:'30 mg', price:79.99,  img:'https://images.unsplash.com/photo-1592833159155-c4b66fba69d4?q=80&w=400&auto=format' },
-      { id:'p60', dose:'60 mg', price:109.99, img:'https://images.unsplash.com/photo-1599050751795-5cda92fb3a48?q=80&w=400&auto=format' },
+      { id:'p5',  dose:'5 mg',  price:24.99,  img:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format' },
+      { id:'p10', dose:'10 mg', price:39.99,  img:'https://images.unsplash.com/photo-1573883431205-98b0d4638c4c?q=80&w=800&auto=format' },
+      { id:'p15', dose:'15 mg', price:54.99,  img:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=800&auto=format' },
+      { id:'p20', dose:'20 mg', price:69.99,  img:'https://images.unsplash.com/photo-1585386959984-a415522316dc?q=80&w=800&auto=format' },
+      { id:'p30', dose:'30 mg', price:79.99,  img:'https://images.unsplash.com/photo-1592833159155-c4b66fba69d4?q=80&w=800&auto=format' },
+      { id:'p60', dose:'60 mg', price:109.99, img:'https://images.unsplash.com/photo-1599050751795-5cda92fb3a48?q=80&w=800&auto=format' },
     ];
 
     const grid = document.getElementById('productGrid');
@@ -124,34 +153,33 @@
 
     const cart = []; // {id, dose, price, qty, img}
 
-    // Render products
     function renderProducts(){
       grid.innerHTML = '';
       products.forEach(p=>{
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-          <img class="card-img" src="${p.img}" alt="${p.dose}">
+          <div class="card-img-wrap">
+            <img class="card-img" src="${p.img}" alt="${p.dose}">
+          </div>
           <div class="card-body">
             <div class="dose">${p.dose}</div>
             <div class="price">$${p.price.toFixed(2)}</div>
             <div class="btn-row">
-              <button class="btn" onclick="addToCart('${p.id}')">Add to Cart</button>
+              <button class="btn full" onclick="addToCart('${p.id}')">Add to Cart</button>
             </div>
           </div>`;
         grid.appendChild(card);
       });
     }
 
-    // Cart logic
     window.addToCart = function(id){
       const p = products.find(x=>x.id===id);
       if(!p) return;
-      const found = cart.find(x=>x.id===id);
-      if(found){ found.qty++; }
+      const line = cart.find(x=>x.id===id);
+      if(line){ line.qty++; }
       else { cart.push({id:p.id, dose:p.dose, price:p.price, qty:1, img:p.img}); }
       renderCart();
-      // Open drawer on first add
       if(!cartDrawer.classList.contains('open')) toggleDrawer(true);
     }
 
@@ -177,7 +205,6 @@
       cart.forEach(item=>{
         total += item.price*item.qty;
         count += item.qty;
-
         const line = document.createElement('div');
         line.className = 'line';
         line.innerHTML = `
@@ -186,9 +213,9 @@
             <div><strong>${item.dose}</strong></div>
             <div class="muted">$${item.price.toFixed(2)} each</div>
             <div class="qty">
-              <button aria-label="Decrease" onclick="changeQty('${item.id}',-1)">-</button>
+              <button aria-label="Decrease quantity" onclick="changeQty('${item.id}',-1)">−</button>
               <div>${item.qty}</div>
-              <button aria-label="Increase" onclick="changeQty('${item.id}',1)">+</button>
+              <button aria-label="Increase quantity" onclick="changeQty('${item.id}',1)">+</button>
             </div>
           </div>
           <div><strong>$${(item.price*item.qty).toFixed(2)}</strong></div>
