@@ -5,46 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Supplement Store</title>
 
-  <!-- Minimal styling -->
+  <!-- minimal CSS -->
   <style>
-    :root{
-      --green:#28a745;
-      --dark-green:#218838;
-      --gray:#f8f9fa;
-    }
+    :root{ --green:#28a745; --dark-green:#218838; --gray:#f8f9fa; }
     *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
-    body{background:var(--gray);color:#333;line-height:1.5}
-    header{background:var(--green);color:#fff;text-align:center;padding:1rem;font-size:1.6rem}
-    .container{max-width:960px;margin:2rem auto;padding:0 1rem}
-    .products{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-    .product{background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1);padding:1rem;text-align:center}
-    .product h2{margin:.5rem 0;font-weight:600}
-    .price{color:var(--green);font-weight:bold;font-size:1.2rem;margin:.3rem 0 .8rem}
-    .buy-btn{background:var(--green);color:#fff;border:none;padding:.6rem 1.2rem;border-radius:4px;cursor:pointer;font-size:1rem}
+    body{background:var(--gray);color:#333;display:flex;min-height:100vh;flex-direction:column}
+    header{background:var(--green);color:#fff;text-align:center;padding:1rem;font-size:1.7rem}
+    .container{max-width:960px;margin:2rem auto;padding:0 1rem;flex-grow:1}
+    .products{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .product{background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1);padding:1rem;display:flex;flex-direction:column;align-items:center}
+    .product img{width:100%;height:160px;object-fit:cover;border-radius:6px;margin-bottom:.8rem}
+    .product h2{font-weight:600;margin:.4rem 0}
+    .price{color:var(--green);font-weight:bold;font-size:1.2rem;margin-bottom:.8rem}
+    .buy-btn{background:var(--green);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:4px;cursor:pointer;font-size:1rem}
     .buy-btn:hover{background:var(--dark-green)}
-    #cart{margin-top:2.5rem;background:#fff;border-radius:8px;padding:1rem;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-    #cart h3{margin-top:0;font-size:1.25rem}
-    #cart ul{list-style:none;padding-left:0}
-    #cart li{display:flex;justify-content:space-between;border-bottom:1px solid #eee;padding:.5rem 0}
+
+    /* cart */
+    #cart{margin-top:3rem;background:#fff;border-radius:8px;padding:1rem;box-shadow:0 2px 6px rgba(0,0,0,.1)}
+    #cart h3{margin-top:0;font-size:1.3rem}
+    #cart ul{list-style:none;padding-left:0;max-height:230px;overflow-y:auto}
+    #cart li{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee;padding:.6rem 0}
+    #cart li img{height:40px;width:40px;object-fit:contain;border:1px solid #ddd;border-radius:4px;margin-right:10px}
+
     footer{text-align:center;padding:1rem;font-size:.85rem;border-top:1px solid #ddd;margin-top:3rem;color:#666}
+
+    /* floating cart button */
+    .go-to-cart{position:fixed;bottom:25px;right:25px;background:var(--green);color:#fff;border:none;border-radius:50%;width:56px;height:56px;cursor:pointer;font-size:26px;box-shadow:0 4px 8px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;z-index:1000}
+    .go-to-cart:hover{background:var(--dark-green)}
   </style>
 </head>
-
 <body>
   <header>Supplement Store</header>
 
   <div class="container">
     <!-- product grid -->
     <div class="products">
-      <div class="product"><h2>5 mg</h2>  <div class="price">$24.99</div><button class="buy-btn" onclick="addToCart('5 mg',24.99)">Buy Now</button></div>
-      <div class="product"><h2>10 mg</h2> <div class="price">$39.99</div><button class="buy-btn" onclick="addToCart('10 mg',39.99)">Buy Now</button></div>
-      <div class="product"><h2>15 mg</h2> <div class="price">$54.99</div><button class="buy-btn" onclick="addToCart('15 mg',54.99)">Buy Now</button></div>
-      <div class="product"><h2>20 mg</h2> <div class="price">$69.99</div><button class="buy-btn" onclick="addToCart('20 mg',69.99)">Buy Now</button></div>
-      <div class="product"><h2>30 mg</h2> <div class="price">$79.99</div><button class="buy-btn" onclick="addToCart('30 mg',79.99)">Buy Now</button></div>
-      <div class="product"><h2>60 mg</h2> <div class="price">$109.99</div><button class="buy-btn" onclick="addToCart('60 mg',109.99)">Buy Now</button></div>
+      <div class="product">
+        <img src="https://via.placeholder.com/240x160?text=5+mg" alt="5 mg">
+        <h2>5 mg</h2>
+        <div class="price">$24.99</div>
+        <button class="buy-btn" onclick="addToCart('5 mg',24.99,'https://via.placeholder.com/40?text=5')">Buy Now</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/240x160?text=10+mg" alt="10 mg">
+        <h2>10 mg</h2>
+        <div class="price">$39.99</div>
+        <button class="buy-btn" onclick="addToCart('10 mg',39.99,'https://via.placeholder.com/40?text=10')">Buy Now</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/240x160?text=15+mg" alt="15 mg">
+        <h2>15 mg</h2>
+        <div class="price">$54.99</div>
+        <button class="buy-btn" onclick="addToCart('15 mg',54.99,'https://via.placeholder.com/40?text=15')">Buy Now</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/240x160?text=20+mg" alt="20 mg">
+        <h2>20 mg</h2>
+        <div class="price">$69.99</div>
+        <button class="buy-btn" onclick="addToCart('20 mg',69.99,'https://via.placeholder.com/40?text=20')">Buy Now</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/240x160?text=30+mg" alt="30 mg">
+        <h2>30 mg</h2>
+        <div class="price">$79.99</div>
+        <button class="buy-btn" onclick="addToCart('30 mg',79.99,'https://via.placeholder.com/40?text=30')">Buy Now</button>
+      </div>
+      <div class="product">
+        <img src="https://via.placeholder.com/240x160?text=60+mg" alt="60 mg">
+        <h2>60 mg</h2>
+        <div class="price">$109.99</div>
+        <button class="buy-btn" onclick="addToCart('60 mg',109.99,'https://via.placeholder.com/40?text=60')">Buy Now</button>
+      </div>
     </div>
 
-    <!-- simple cart -->
+    <!-- cart -->
     <div id="cart">
       <h3>Your Cart</h3>
       <ul id="cart-items"></ul>
@@ -52,25 +86,28 @@
     </div>
   </div>
 
+  <!-- floating button -->
+  <button class="go-to-cart" onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'});">🛒</button>
+
   <footer>&copy; 2025 Supplement Store. All rights reserved.</footer>
 
   <!-- tiny cart script -->
   <script>
-    const cart=[], itemsEl=document.getElementById('cart-items'), totalEl=document.getElementById('cart-total');
-    function addToCart(name,price){
+    const cart=[], list=document.getElementById('cart-items'), totalEl=document.getElementById('cart-total');
+    function addToCart(name,price,img){
       const item=cart.find(i=>i.name===name);
-      item?item.qty++:cart.push({name,price,qty:1});
-      renderCart();
+      item?item.qty++:cart.push({name,price,img,qty:1});
+      render();
     }
-    function renderCart(){
-      itemsEl.innerHTML=''; let total=0;
-      cart.forEach(({name,price,qty})=>{
+    function render(){
+      list.innerHTML=''; let total=0;
+      cart.forEach(({name,price,img,qty})=>{
         total+=price*qty;
         const li=document.createElement('li');
-        li.textContent=`${name} × ${qty}`; 
-        const span=document.createElement('span');
-        span.textContent=`$${(price*qty).toFixed(2)}`;
-        li.appendChild(span); itemsEl.appendChild(li);
+        const thumbnail=document.createElement('img'); thumbnail.src=img; thumbnail.alt=name;
+        const label=document.createElement('span'); label.textContent=`${name} × ${qty}`;
+        const cost=document.createElement('span'); cost.textContent=`$${(price*qty).toFixed(2)}`;
+        li.append(thumbnail,label,cost); list.appendChild(li);
       });
       totalEl.textContent=total.toFixed(2);
     }
