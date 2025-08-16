@@ -2,259 +2,213 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Supplement Store</title>
   <style>
-    :root{
-      --green:#28a745;
-      --green-dark:#1f7a36;
-      --bg:#f8f9fa;
-      --text:#333;
-      --border:#e9ecef;
-      --card:#fff;
-      --muted:#666;
-      --shadow:0 2px 6px rgba(0,0,0,.08);
-      --radius:10px;
-      --btn-h:40px;
-    }
-
+    :root{--green:#28a745;--green-dark:#1f7a36;--bg:#f8f9fa;--text:#333;--border:#e9ecef;--card:#fff;--muted:#666;--shadow:0 2px 6px rgba(0,0,0,.08);--radius:10px;--btn-h:40px}
     *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
     body{background:var(--bg);color:var(--text);line-height:1.5}
     a{color:inherit;text-decoration:none}
 
-    /* Header / Nav */
+    /* NAV */
     header{background:#fff;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
-    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem;gap:1rem}
-    .brand{font-weight:700;font-size:1.1rem;white-space:nowrap}
+    .nav{max-width:1100px;margin:0 auto;padding:.9rem 1rem;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+    .brand{font-weight:700;font-size:1.1rem}
     .nav-left,.nav-right{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap}
     .nav-link{padding:.4rem .6rem;border-radius:6px;color:#222}
     .nav-link:hover{background:#f3f4f5}
-    .nav-cta{display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border-radius:6px;border:1px solid var(--green);color:var(--green);background:#fff;cursor:pointer}
+    .nav-cta,.cart-btn{display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border-radius:6px;cursor:pointer}
+    .nav-cta{border:1px solid var(--green);background:#fff;color:var(--green)}
     .nav-cta:hover{background:#f6fff8}
-    .cart-btn{position:relative;display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border-radius:6px;border:none;background:var(--green);color:#fff;cursor:pointer}
+    .cart-btn{border:none;background:var(--green);color:#fff}
     .cart-btn:hover{background:var(--green-dark)}
     .cart-count{position:absolute;top:-8px;right:-8px;background:#000;color:#fff;border-radius:999px;font-size:.7rem;padding:.1rem .4rem}
 
-    /* Hero */
+    /* HERO */
     .hero{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
     .hero-box{background:#e9f7ee;border:1px solid #dff1e6;border-radius:var(--radius);padding:1.25rem;text-align:center;box-shadow:var(--shadow)}
     .hero h1{font-size:1.5rem;margin-bottom:.35rem}
-    .hero p{color:#4b4b4b}
 
-    /* Grid / Cards */
+    /* GRID */
     .container{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
     .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-    .card{background:var(--card);border:1px solid #eee;border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;box-shadow:var(--shadow)}
-    .card-img-wrap{width:100%;aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;background:#f2f2f2}
+    .card{background:var(--card);border:1px solid #eee;border-radius:var(--radius);box-shadow:var(--shadow);display:flex;flex-direction:column}
+    .card-img-wrap{width:100%;aspect-ratio:1/1;background:#f2f2f2}
     .card-img{width:100%;height:100%;object-fit:cover}
     .card-body{padding:.9rem;display:flex;flex-direction:column;gap:.5rem}
-    .dose{font-weight:700}
-    .price{color:var(--green);font-weight:700}
-    .btn{display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border-radius:6px;border:none;background:var(--green);color:#fff;cursor:pointer}
+    .dose{font-weight:700}.price{color:var(--green);font-weight:700}
+    .btn{display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border:none;border-radius:6px;background:var(--green);color:#fff;cursor:pointer}
     .btn:hover{background:var(--green-dark)}
-    .btn-outline{display:inline-flex;align-items:center;justify-content:center;height:var(--btn-h);padding:0 .9rem;border-radius:6px;border:1px solid var(--green);background:#fff;color:var(--green);cursor:pointer}
-    .btn-outline:hover{background:#f6fff8}
-    .btn-row{display:flex;gap:.5rem;margin-top:.25rem}
     .full{width:100%}
 
-    /* Cart Drawer */
+    /* CART DRAWER */
     .drawer{position:fixed;right:0;top:0;height:100dvh;width:380px;max-width:95vw;background:#fff;border-left:1px solid #ddd;box-shadow:-6px 0 24px rgba(0,0,0,.08);transform:translateX(100%);transition:transform .25s ease;z-index:999;display:flex;flex-direction:column}
     .drawer.open{transform:translateX(0)}
-    .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:1rem;border-bottom:1px solid #eee}
-    .drawer-title{font-weight:700}
-    .drawer-body{flex:1;overflow:auto;padding:1rem}
+    .drawer-head{display:flex;justify-content:space-between;align-items:center;padding:1rem;border-bottom:1px solid #eee}
+    .drawer-body{flex:1;padding:1rem;overflow:auto}
     .drawer-foot{border-top:1px solid #eee;padding:1rem}
     .line{display:flex;gap:.75rem;align-items:center;border-bottom:1px solid #f3f3f3;padding:.6rem 0}
-    .line img{width:56px;height:56px;object-fit:cover;border-radius:6px;border:1px solid #eee;background:#fafafa}
-    .line-main{flex:1}
-    .qty{display:flex;align-items:center;gap:.4rem;margin-top:.35rem}
-    .qty button{width:32px;height:32px;border:1px solid #ddd;background:#fff;border-radius:4px;cursor:pointer;font-size:1rem;line-height:1}
+    .line img{width:56px;height:56px;object-fit:cover;border-radius:6px;border:1px solid #eee}
+    .line-main{flex:1}.qty{display:flex;gap:.4rem;align-items:center;margin-top:.35rem}
+    .qty button{width:32px;height:32px;border:1px solid #ddd;background:#fff;border-radius:4px;cursor:pointer}
+    .totals{display:flex;justify-content:space-between;margin:.6rem 0 1rem}
     .muted{color:var(--muted);font-size:.92rem}
-    .totals{display:flex;align-items:center;justify-content:space-between;margin:.6rem 0 1rem}
-    .checkout-btn{width:100%;}
 
-    /* Footer */
+    /* FOOTER */
     footer{text-align:center;color:#666;border-top:1px solid var(--border);margin-top:1.5rem;padding:1rem}
-
-    /* Responsive tweaks */
-    @media (max-width:420px){
-      .nav-left,.nav-right{gap:.5rem}
-      .nav-link{padding:.3rem .45rem}
-    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="nav">
-      <div class="nav-left">
-        <div class="brand">Supplement Store</div>
-        <a class="nav-link" href="/" aria-label="Home">Home</a>
-        <a class="nav-link" href="/terms.html" aria-label="Terms of Service">Terms of Service</a>
-      </div>
-      <div class="nav-right">
-        <a class="nav-cta" href="/signup.html" aria-label="Sign Up">Sign Up</a>
-        <a class="nav-cta" href="/login.html" aria-label="Log In">Log In</a>
-        <button id="openCart" class="cart-btn" aria-label="Open cart">
-          Cart <span id="cartCount" class="cart-count">0</span>
-        </button>
-      </div>
+<header>
+  <div class="nav">
+    <div class="nav-left">
+      <div class="brand">Supplement Store</div>
+      <a class="nav-link" href="/">Home</a>
+      <a class="nav-link" href="/terms.html">Terms of Service</a>
     </div>
-  </header>
-
-  <section class="hero">
-    <div class="hero-box">
-      <h1>High‑Quality Supplements</h1>
-      <p>Six simple options. Transparent dosing. Fast shipping.</p>
+    <div class="nav-right">
+      <a class="nav-cta" href="/signup.html">Sign Up</a>
+      <a class="nav-cta" href="/login.html">Log In</a>
+      <button id="openCart" class="cart-btn">Cart <span id="cartCount" class="cart-count">0</span></button>
     </div>
-  </section>
+  </div>
+</header>
 
-  <main class="container">
-    <div class="grid" id="productGrid"><!-- rendered by JS --></div>
-  </main>
+<section class="hero">
+  <div class="hero-box">
+    <h1>High-Quality Supplements</h1>
+    <p>Six simple options. Transparent dosing. Fast shipping.</p>
+  </div>
+</section>
 
-  <footer>© 2025 Supplement Store. All rights reserved.</footer>
+<main class="container">
+  <div class="grid" id="productGrid"></div>
+</main>
 
-  <!-- Cart Drawer -->
-  <aside id="cartDrawer" class="drawer" aria-hidden="true">
-    <div class="drawer-head">
-      <div class="drawer-title">Your Cart</div>
-      <button id="closeCart" class="btn-outline" aria-label="Close cart">Close</button>
-    </div>
-    <div id="cartBody" class="drawer-body"><!-- lines rendered here --></div>
-    <div class="drawer-foot">
-      <div class="totals">
-        <strong>Total</strong>
-        <strong>$<span id="cartTotal">0.00</span></strong>
-      </div>
-      <a href="#" id="checkoutLink" class="btn checkout-btn">Checkout</a>
-      <div style="height:.5rem"></div>
-      <small class="muted">Replace the Checkout link with your payment or checkout URL.</small>
-    </div>
-  </aside>
+<footer>© 2025 Supplement Store. All rights reserved.</footer>
 
-  <script>
-    // Replace these with your actual image URLs
-    const products = [
-      { id:'p5',  dose:'5 mg',  price:24.99,  img:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format' },
-      { id:'p10', dose:'10 mg', price:39.99,  img:'https://images.unsplash.com/photo-1573883431205-98b0d4638c4c?q=80&w=800&auto=format' },
-      { id:'p15', dose:'15 mg', price:54.99,  img:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=800&auto=format' },
-      { id:'p20', dose:'20 mg', price:69.99,  img:'https://images.unsplash.com/photo-1585386959984-a415522316dc?q=80&w=800&auto=format' },
-      { id:'p30', dose:'30 mg', price:79.99,  img:'https://images.unsplash.com/photo-1592833159155-c4b66fba69d4?q=80&w=800&auto=format' },
-      { id:'p60', dose:'60 mg', price:109.99, img:'https://images.unsplash.com/photo-1599050751795-5cda92fb3a48?q=80&w=800&auto=format' },
-    ];
-
-    const grid = document.getElementById('productGrid');
-    const cartDrawer = document.getElementById('cartDrawer');
-    const openCartBtn = document.getElementById('openCart');
-    const closeCartBtn = document.getElementById('closeCart');
-    const cartBody = document.getElementById('cartBody');
-    const cartTotalEl = document.getElementById('cartTotal');
-    const cartCountEl = document.getElementById('cartCount');
-
-    const cart = []; // {id, dose, price, qty, img}
-
-    function renderProducts(){
-      grid.innerHTML = '';
-      products.forEach(p=>{
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-img-wrap">
-            <img class="card-img" src="${p.img}" alt="${p.dose}">
-          </div>
-          <div class="card-body">
-            <div class="dose">${p.dose}</div>
-            <div class="price">$${p.price.toFixed(2)}</div>
-            <div class="btn-row">
-              <button class="btn full" onclick="addToCart('${p.id}')">Add to Cart</button>
-            </div>
-          </div>`;
-        grid.appendChild(card);
-      });
-    }
-
-    window.addToCart = function(id){
-      const p = products.find(x=>x.id===id);
-      if(!p) return;
-      const line = cart.find(x=>x.id===id);
-      if(line){ line.qty++; }
-      else { cart.push({id:p.id, dose:p.dose, price:p.price, qty:1, img:p.img}); }
-      renderCart();
-      if(!cartDrawer.classList.contains('open')) toggleDrawer(true);
-    }
-
-    function changeQty(id, delta){
-      const item = cart.find(x=>x.id===id);
-      if(!item) return;
-      item.qty += delta;
-      if(item.qty<=0){
-        const idx = cart.findIndex(x=>x.id===id);
-        if(idx>-1) cart.splice(idx,1);
-      }
-      renderCart();
-    }
-
-    function renderCart(){
-      cartBody.innerHTML = '';
-      let total = 0, count = 0;
-
-      if(cart.length===0){
-        cartBody.innerHTML = '<p class="muted">Your cart is empty.</p>';
-      }
-
-      cart.forEach(item=>{
-        total += item.price*item.qty;
-        count += item.qty;
-        const line = document.createElement('div');
-        line.className = 'line';
-        line.innerHTML = `
-          <img src="${item.img}" alt="${item.dose}">
-          <div class="line-main">
-            <div><strong>${item.dose}</strong></div>
-            <div class="muted">$${item.price.toFixed(2)} each</div>
-            <div class="qty">
-              <button aria-label="Decrease quantity" onclick="changeQty('${item.id}',-1)">−</button>
-              <div>${item.qty}</div>
-              <button aria-label="Increase quantity" onclick="changeQty('${item.id}',1)">+</button>
-            </div>
-          </div>
-          <div><strong>$${(item.price*item.qty).toFixed(2)}</strong></div>
-        `;
-        cartBody.appendChild(line);
-      });
-
-      cartTotalEl.textContent = total.toFixed(2);
-      cartCountEl.textContent = count;
-    }
-
-    function toggleDrawer(open){
-      if(open) { cartDrawer.classList.add('open'); cartDrawer.setAttribute('aria-hidden','false'); }
-      else { cartDrawer.classList.remove('open'); cartDrawer.setAttribute('aria-hidden','true'); }
-    }
-
-    openCartBtn.addEventListener('click', ()=>toggleDrawer(true));
-    closeCartBtn.addEventListener('click', ()=>toggleDrawer(false));
-
-    renderProducts();
-    renderCart();
-  </script>
-
-  <!-- checkout link already in your markup -->
-<a href="/checkout.html" id="checkoutLink" class="btn checkout-btn">Checkout</a>
+<!-- CART DRAWER -->
+<aside id="cartDrawer" class="drawer" aria-hidden="true">
+  <div class="drawer-head">
+    <div class="drawer-title">Your Cart</div>
+    <button id="closeCart" class="btn-outline">Close</button>
+  </div>
+  <div id="cartBody" class="drawer-body"></div>
+  <div class="drawer-foot">
+    <div class="totals"><strong>Total</strong><strong>$<span id="cartTotal">0.00</span></strong></div>
+    <a href="/checkout.html" id="checkoutBtn" class="btn full">Checkout</a>
+  </div>
+</aside>
 
 <script>
-  /* store cart in localStorage before leaving the page */
-  const checkoutEl = document.getElementById('checkoutLink');
-  if (checkoutEl) {
-    checkoutEl.addEventListener('click', (e) => {
-      localStorage.setItem('cart', JSON.stringify(window.cart || []));
-      if (!window.cart || window.cart.length === 0) {
-        e.preventDefault();
-        alert('Your cart is empty.');
-      }
-    });
+/* ---------- products ---------- */
+const products=[
+ {id:'p5',dose:'5 mg', price:24.99,img:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=800&auto=format'},
+ {id:'p10',dose:'10 mg',price:39.99,img:'https://images.unsplash.com/photo-1573883431205-98b0d4638c4c?q=80&w=800&auto=format'},
+ {id:'p15',dose:'15 mg',price:54.99,img:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=800&auto=format'},
+ {id:'p20',dose:'20 mg',price:69.99,img:'https://images.unsplash.com/photo-1585386959984-a415522316dc?q=80&w=800&auto=format'},
+ {id:'p30',dose:'30 mg',price:79.99,img:'https://images.unsplash.com/photo-1592833159155-c4b66fba69d4?q=80&w=800&auto=format'},
+ {id:'p60',dose:'60 mg',price:109.99,img:'https://images.unsplash.com/photo-1599050751795-5cda92fb3a48?q=80&w=800&auto=format'}
+];
+
+/* ---------- DOM refs ---------- */
+const grid=document.getElementById('productGrid');
+const cartDrawer=document.getElementById('cartDrawer');
+const openCartBtn=document.getElementById('openCart');
+const closeCartBtn=document.getElementById('closeCart');
+const cartBody=document.getElementById('cartBody');
+const cartTotalEl=document.getElementById('cartTotal');
+const cartCountEl=document.getElementById('cartCount');
+const checkoutBtn=document.getElementById('checkoutBtn');
+
+/* ---------- cart state ---------- */
+const cart=[];
+window.cart=cart;
+
+function saveCart(){
+  localStorage.setItem('cart',JSON.stringify(cart));
+}
+
+/* ---------- UI builders ---------- */
+function renderProducts(){
+  grid.innerHTML='';
+  products.forEach(p=>{
+    const el=document.createElement('div');
+    el.className='card';
+    el.innerHTML=`
+      <div class="card-img-wrap"><img class="card-img" src="${p.img}" alt="${p.dose}"></div>
+      <div class="card-body">
+        <div class="dose">${p.dose}</div>
+        <div class="price">$${p.price.toFixed(2)}</div>
+        <button class="btn full" onclick="addToCart('${p.id}')">Add to Cart</button>
+      </div>`;
+    grid.appendChild(el);
+  });
+}
+
+function renderCart(){
+  cartBody.innerHTML='';
+  let total=0, count=0;
+  if(cart.length===0){
+    cartBody.innerHTML='<p class="muted">Your cart is empty.</p>';
   }
+  cart.forEach(i=>{
+    total+=i.price*i.qty; count+=i.qty;
+    const line=document.createElement('div');
+    line.className='line';
+    line.innerHTML=`
+      <img src="${i.img}" alt="${i.dose}">
+      <div class="line-main">
+        <div><strong>${i.dose}</strong></div>
+        <div class="muted">$${i.price.toFixed(2)} each</div>
+        <div class="qty">
+          <button onclick="changeQty('${i.id}',-1)">−</button>
+          <div>${i.qty}</div>
+          <button onclick="changeQty('${i.id}',1)">+</button>
+        </div>
+      </div>
+      <div><strong>$${(i.price*i.qty).toFixed(2)}</strong></div>`;
+    cartBody.appendChild(line);
+  });
+  cartTotalEl.textContent=total.toFixed(2);
+  cartCountEl.textContent=count;
+}
+
+/* ---------- cart actions ---------- */
+function addToCart(id){
+  const p=products.find(x=>x.id===id);
+  const line=cart.find(x=>x.id===id);
+  line?line.qty++:cart.push({...p,qty:1});
+  saveCart(); renderCart();
+  if(!cartDrawer.classList.contains('open')) toggleDrawer(true);
+}
+function changeQty(id,delta){
+  const item=cart.find(x=>x.id===id);
+  if(!item)return;
+  item.qty+=delta;
+  if(item.qty<=0) cart.splice(cart.indexOf(item),1);
+  saveCart(); renderCart();
+}
+
+/* ---------- drawer & checkout ---------- */
+function toggleDrawer(open){
+  cartDrawer.classList.toggle('open',open);
+  cartDrawer.setAttribute('aria-hidden',(!open).toString());
+}
+openCartBtn.onclick=()=>toggleDrawer(true);
+closeCartBtn.onclick=()=>toggleDrawer(false);
+
+checkoutBtn.addEventListener('click',e=>{
+  saveCart();
+  if(cart.length===0){
+    e.preventDefault();
+    alert('Your cart is empty.');
+  }
+});
+
+/* ---------- init ---------- */
+renderProducts();
+renderCart();
 </script>
-  
 </body>
 </html>
