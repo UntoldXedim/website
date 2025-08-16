@@ -152,8 +152,7 @@
     const cartCountEl = document.getElementById('cartCount');
 
     const cart = []; // {id, dose, price, qty, img}
-    window.cart = cart;
-    
+
     function renderProducts(){
       grid.innerHTML = '';
       products.forEach(p=>{
@@ -239,6 +238,7 @@
     renderProducts();
     renderCart();
   </script>
+
   <!-- checkout link already in your markup -->
 <a href="/checkout.html" id="checkoutLink" class="btn checkout-btn">Checkout</a>
 
@@ -255,9 +255,6 @@
     });
   }
 </script>
-
+  
 </body>
 </html>
-
-
-
