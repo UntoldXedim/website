@@ -4,113 +4,212 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Supplement Store</title>
-
-  <!-- minimal CSS -->
   <style>
-    :root{ --green:#28a745; --dark-green:#218838; --gray:#f8f9fa; }
+    :root{
+      --green:#28a745;
+      --green-dark:#1f7a36;
+      --bg:#f8f9fa;
+      --text:#333;
+    }
     *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,Helvetica,sans-serif}
-    body{background:var(--gray);color:#333;display:flex;min-height:100vh;flex-direction:column}
-    header{background:var(--green);color:#fff;text-align:center;padding:1rem;font-size:1.7rem}
-    .container{max-width:960px;margin:2rem auto;padding:0 1rem;flex-grow:1}
-    .products{display:grid;gap:2rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
-    .product{background:#fff;border-radius:8px;box-shadow:0 2px 6px rgba(0,0,0,.1);padding:1rem;display:flex;flex-direction:column;align-items:center}
-    .product img{width:100%;height:160px;object-fit:cover;border-radius:6px;margin-bottom:.8rem}
-    .product h2{font-weight:600;margin:.4rem 0}
-    .price{color:var(--green);font-weight:bold;font-size:1.2rem;margin-bottom:.8rem}
-    .buy-btn{background:var(--green);color:#fff;border:none;padding:.6rem 1.4rem;border-radius:4px;cursor:pointer;font-size:1rem}
-    .buy-btn:hover{background:var(--dark-green)}
-
-    /* cart */
-    #cart{margin-top:3rem;background:#fff;border-radius:8px;padding:1rem;box-shadow:0 2px 6px rgba(0,0,0,.1)}
-    #cart h3{margin-top:0;font-size:1.3rem}
-    #cart ul{list-style:none;padding-left:0;max-height:230px;overflow-y:auto}
-    #cart li{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #eee;padding:.6rem 0}
-    #cart li img{height:40px;width:40px;object-fit:contain;border:1px solid #ddd;border-radius:4px;margin-right:10px}
-
-    footer{text-align:center;padding:1rem;font-size:.85rem;border-top:1px solid #ddd;margin-top:3rem;color:#666}
-
-    /* floating cart button */
-    .go-to-cart{position:fixed;bottom:25px;right:25px;background:var(--green);color:#fff;border:none;border-radius:50%;width:56px;height:56px;cursor:pointer;font-size:26px;box-shadow:0 4px 8px rgba(0,0,0,.25);display:flex;align-items:center;justify-content:center;z-index:1000}
-    .go-to-cart:hover{background:var(--dark-green)}
+    body{background:var(--bg);color:var(--text);line-height:1.5}
+    a{color:inherit;text-decoration:none}
+    /* Header */
+    header{background:#fff;border-bottom:1px solid #e9ecef;position:sticky;top:0;z-index:10}
+    .nav{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem}
+    .brand{font-weight:700;font-size:1.1rem}
+    .cart-btn{position:relative;background:var(--green);color:#fff;border:none;border-radius:6px;padding:.55rem .9rem;cursor:pointer}
+    .cart-count{position:absolute;top:-8px;right:-8px;background:#000;color:#fff;border-radius:999px;font-size:.7rem;padding:.1rem .4rem}
+    /* Hero */
+    .hero{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
+    .hero-box{background:#e9f7ee;border:1px solid #dff1e6;border-radius:10px;padding:1.25rem;text-align:center}
+    .hero h1{font-size:1.5rem;margin-bottom:.35rem}
+    .hero p{color:#4b4b4b}
+    /* Grid */
+    .container{max-width:1100px;margin:1.25rem auto;padding:0 1rem}
+    .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .card{background:#fff;border:1px solid #eee;border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+    .card-img{aspect-ratio:1/1;width:100%;object-fit:cover;background:#f2f2f2}
+    .card-body{padding:0.9rem;display:flex;flex-direction:column;gap:.35rem}
+    .dose{font-weight:700}
+    .price{color:var(--green);font-weight:700}
+    .btn{display:inline-block;background:var(--green);color:#fff;border:none;border-radius:6px;padding:.55rem .9rem;cursor:pointer;text-align:center}
+    .btn:hover{background:var(--green-dark)}
+    .btn-outline{background:#fff;color:var(--green);border:1px solid var(--green)}
+    .btn-row{display:flex;gap:.5rem;margin-top:.35rem}
+    /* Cart drawer */
+    .drawer{position:fixed;right:0;top:0;height:100dvh;width:360px;max-width:95vw;background:#fff;border-left:1px solid #ddd;box-shadow:-6px 0 24px rgba(0,0,0,.08);transform:translateX(100%);transition:transform .25s ease;z-index:999}
+    .drawer.open{transform:translateX(0)}
+    .drawer-head{display:flex;align-items:center;justify-content:space-between;padding:1rem;border-bottom:1px solid #eee}
+    .drawer-title{font-weight:700}
+    .drawer-body{height:calc(100dvh - 142px);overflow:auto;padding:1rem}
+    .drawer-foot{border-top:1px solid #eee;padding:1rem}
+    .line{display:flex;gap:.75rem;align-items:center;border-bottom:1px solid #f3f3f3;padding:.6rem 0}
+    .line img{width:56px;height:56px;object-fit:cover;border-radius:6px;border:1px solid #eee;background:#fafafa}
+    .line-main{flex:1}
+    .qty{display:flex;align-items:center;gap:.4rem}
+    .qty button{width:28px;height:28px;border:1px solid #ddd;background:#fff;border-radius:4px;cursor:pointer}
+    .muted{color:#666;font-size:.9rem}
+    .totals{display:flex;align-items:center;justify-content:space-between;margin:.6rem 0 1rem}
+    /* Footer */
+    footer{text-align:center;color:#666;border-top:1px solid #e9ecef;margin-top:1.5rem;padding:1rem}
+    /* Utility */
+    .spacer{height:.5rem}
   </style>
 </head>
 <body>
-  <header>Supplement Store</header>
-
-  <div class="container">
-    <!-- product grid -->
-    <div class="products">
-      <div class="product">
-        <img src="https://via.placeholder.com/240x160?text=5+mg" alt="5 mg">
-        <h2>5 mg</h2>
-        <div class="price">$24.99</div>
-        <button class="buy-btn" onclick="addToCart('5 mg',24.99,'https://via.placeholder.com/40?text=5')">Buy Now</button>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/240x160?text=10+mg" alt="10 mg">
-        <h2>10 mg</h2>
-        <div class="price">$39.99</div>
-        <button class="buy-btn" onclick="addToCart('10 mg',39.99,'https://via.placeholder.com/40?text=10')">Buy Now</button>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/240x160?text=15+mg" alt="15 mg">
-        <h2>15 mg</h2>
-        <div class="price">$54.99</div>
-        <button class="buy-btn" onclick="addToCart('15 mg',54.99,'https://via.placeholder.com/40?text=15')">Buy Now</button>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/240x160?text=20+mg" alt="20 mg">
-        <h2>20 mg</h2>
-        <div class="price">$69.99</div>
-        <button class="buy-btn" onclick="addToCart('20 mg',69.99,'https://via.placeholder.com/40?text=20')">Buy Now</button>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/240x160?text=30+mg" alt="30 mg">
-        <h2>30 mg</h2>
-        <div class="price">$79.99</div>
-        <button class="buy-btn" onclick="addToCart('30 mg',79.99,'https://via.placeholder.com/40?text=30')">Buy Now</button>
-      </div>
-      <div class="product">
-        <img src="https://via.placeholder.com/240x160?text=60+mg" alt="60 mg">
-        <h2>60 mg</h2>
-        <div class="price">$109.99</div>
-        <button class="buy-btn" onclick="addToCart('60 mg',109.99,'https://via.placeholder.com/40?text=60')">Buy Now</button>
-      </div>
+  <header>
+    <div class="nav">
+      <div class="brand">Supplement Store</div>
+      <button id="openCart" class="cart-btn">
+        Cart <span id="cartCount" class="cart-count">0</span>
+      </button>
     </div>
+  </header>
 
-    <!-- cart -->
-    <div id="cart">
-      <h3>Your Cart</h3>
-      <ul id="cart-items"></ul>
-      <div>Total: $<span id="cart-total">0.00</span></div>
+  <section class="hero">
+    <div class="hero-box">
+      <h1>High‑Quality Supplements</h1>
+      <p>Six simple options. Transparent dosing. Fast shipping.</p>
     </div>
-  </div>
+  </section>
 
-  <!-- floating button -->
-  <button class="go-to-cart" onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'});">🛒</button>
+  <main class="container">
+    <div class="grid" id="productGrid">
+      <!-- Example product card — duplicate programmatically -->
+      <!-- Replace image src with your product photos -->
+    </div>
+  </main>
 
-  <footer>&copy; 2025 Supplement Store. All rights reserved.</footer>
+  <footer>© 2025 Supplement Store. All rights reserved.</footer>
 
-  <!-- tiny cart script -->
+  <!-- Cart Drawer -->
+  <aside id="cartDrawer" class="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="drawer-title">Your Cart</div>
+      <button id="closeCart" class="btn btn-outline">Close</button>
+    </div>
+    <div id="cartBody" class="drawer-body">
+      <!-- Cart lines rendered here -->
+    </div>
+    <div class="drawer-foot">
+      <div class="totals">
+        <strong>Total</strong>
+        <strong>$<span id="cartTotal">0.00</span></strong>
+      </div>
+      <a href="#" id="checkoutLink" class="btn" style="width:100%;text-align:center">Checkout</a>
+      <div class="spacer"></div>
+      <small class="muted">Add your checkout link or integration here.</small>
+    </div>
+  </aside>
+
   <script>
-    const cart=[], list=document.getElementById('cart-items'), totalEl=document.getElementById('cart-total');
-    function addToCart(name,price,img){
-      const item=cart.find(i=>i.name===name);
-      item?item.qty++:cart.push({name,price,img,qty:1});
-      render();
-    }
-    function render(){
-      list.innerHTML=''; let total=0;
-      cart.forEach(({name,price,img,qty})=>{
-        total+=price*qty;
-        const li=document.createElement('li');
-        const thumbnail=document.createElement('img'); thumbnail.src=img; thumbnail.alt=name;
-        const label=document.createElement('span'); label.textContent=`${name} × ${qty}`;
-        const cost=document.createElement('span'); cost.textContent=`$${(price*qty).toFixed(2)}`;
-        li.append(thumbnail,label,cost); list.appendChild(li);
+    // Replace these with your actual images
+    const products = [
+      { id:'p5',  dose:'5 mg',  price:24.99,  img:'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=400&auto=format' },
+      { id:'p10', dose:'10 mg', price:39.99,  img:'https://images.unsplash.com/photo-1573883431205-98b0d4638c4c?q=80&w=400&auto=format' },
+      { id:'p15', dose:'15 mg', price:54.99,  img:'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?q=80&w=400&auto=format' },
+      { id:'p20', dose:'20 mg', price:69.99,  img:'https://images.unsplash.com/photo-1585386959984-a415522316dc?q=80&w=400&auto=format' },
+      { id:'p30', dose:'30 mg', price:79.99,  img:'https://images.unsplash.com/photo-1592833159155-c4b66fba69d4?q=80&w=400&auto=format' },
+      { id:'p60', dose:'60 mg', price:109.99, img:'https://images.unsplash.com/photo-1599050751795-5cda92fb3a48?q=80&w=400&auto=format' },
+    ];
+
+    const grid = document.getElementById('productGrid');
+    const cartDrawer = document.getElementById('cartDrawer');
+    const openCartBtn = document.getElementById('openCart');
+    const closeCartBtn = document.getElementById('closeCart');
+    const cartBody = document.getElementById('cartBody');
+    const cartTotalEl = document.getElementById('cartTotal');
+    const cartCountEl = document.getElementById('cartCount');
+
+    const cart = []; // {id, dose, price, qty, img}
+
+    // Render products
+    function renderProducts(){
+      grid.innerHTML = '';
+      products.forEach(p=>{
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <img class="card-img" src="${p.img}" alt="${p.dose}">
+          <div class="card-body">
+            <div class="dose">${p.dose}</div>
+            <div class="price">$${p.price.toFixed(2)}</div>
+            <div class="btn-row">
+              <button class="btn" onclick="addToCart('${p.id}')">Add to Cart</button>
+            </div>
+          </div>`;
+        grid.appendChild(card);
       });
-      totalEl.textContent=total.toFixed(2);
     }
+
+    // Cart logic
+    window.addToCart = function(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      const found = cart.find(x=>x.id===id);
+      if(found){ found.qty++; }
+      else { cart.push({id:p.id, dose:p.dose, price:p.price, qty:1, img:p.img}); }
+      renderCart();
+      // Open drawer on first add
+      if(!cartDrawer.classList.contains('open')) toggleDrawer(true);
+    }
+
+    function changeQty(id, delta){
+      const item = cart.find(x=>x.id===id);
+      if(!item) return;
+      item.qty += delta;
+      if(item.qty<=0){
+        const idx = cart.findIndex(x=>x.id===id);
+        if(idx>-1) cart.splice(idx,1);
+      }
+      renderCart();
+    }
+
+    function renderCart(){
+      cartBody.innerHTML = '';
+      let total = 0, count = 0;
+
+      if(cart.length===0){
+        cartBody.innerHTML = '<p class="muted">Your cart is empty.</p>';
+      }
+
+      cart.forEach(item=>{
+        total += item.price*item.qty;
+        count += item.qty;
+
+        const line = document.createElement('div');
+        line.className = 'line';
+        line.innerHTML = `
+          <img src="${item.img}" alt="${item.dose}">
+          <div class="line-main">
+            <div><strong>${item.dose}</strong></div>
+            <div class="muted">$${item.price.toFixed(2)} each</div>
+            <div class="qty">
+              <button aria-label="Decrease" onclick="changeQty('${item.id}',-1)">-</button>
+              <div>${item.qty}</div>
+              <button aria-label="Increase" onclick="changeQty('${item.id}',1)">+</button>
+            </div>
+          </div>
+          <div><strong>$${(item.price*item.qty).toFixed(2)}</strong></div>
+        `;
+        cartBody.appendChild(line);
+      });
+
+      cartTotalEl.textContent = total.toFixed(2);
+      cartCountEl.textContent = count;
+    }
+
+    function toggleDrawer(open){
+      if(open) { cartDrawer.classList.add('open'); cartDrawer.setAttribute('aria-hidden','false'); }
+      else { cartDrawer.classList.remove('open'); cartDrawer.setAttribute('aria-hidden','true'); }
+    }
+
+    openCartBtn.addEventListener('click', ()=>toggleDrawer(true));
+    closeCartBtn.addEventListener('click', ()=>toggleDrawer(false));
+
+    renderProducts();
+    renderCart();
   </script>
 </body>
 </html>
